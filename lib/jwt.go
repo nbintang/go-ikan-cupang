@@ -30,7 +30,7 @@ func GenerateRefreshToken(id uint, role string, isVerrified bool) (string, error
 		"verified": isVerrified,
 		"exp":      jwt.NewNumericDate(time.Now().Add(time.Hour * 24)), // 24 hours
 	})
-	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	tokenString, err := token.SignedString([]byte("tes"))
 	if err != nil {
 		return "", err
 	}

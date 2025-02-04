@@ -7,6 +7,7 @@ import (
 	"ikan-cupang/models"
 	"strconv"
 
+	
 	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/copier"
 )
@@ -47,6 +48,7 @@ func GetUserByID(c *fiber.Ctx) error {
 		"data":    userResponse,
 	})
 }
+
 
 
 

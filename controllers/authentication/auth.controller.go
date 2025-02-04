@@ -108,6 +108,7 @@ func VerifyOTP(c *fiber.Ctx) error {
 			}
 			return "none"
 		}(),
+		MaxAge: 60 * 60 * 24 * 1, // 30 days
 	})
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{

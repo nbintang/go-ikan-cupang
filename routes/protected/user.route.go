@@ -6,7 +6,8 @@ import (
 )
 
 func UserRoutes(api fiber.Router) {
-	api.Get("/users", protected.GetUsers) 
-	api.Get("/users/:id", protected.GetUserByID)
+	apiGroup := api.Group("/users")
+	apiGroup.Get("/", protected.GetUsers) 
+	apiGroup.Get("/:id", protected.GetUserByID)
 }
 
