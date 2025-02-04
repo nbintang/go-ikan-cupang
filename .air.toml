@@ -1,0 +1,16 @@
+# .air.toml
+
+# Binary name that air will watch and run
+root = "."
+
+# Builds a binary in the tmp directory (optional)
+tmp_dir = "tmp"
+
+# Watch these directories
+watch_dir = "."
+
+# Exclude some files or directories from being watched
+exclude_dir = ["tmp", ".git"]
+
+# Run the program using the command
+cmd = "go run main.go"
