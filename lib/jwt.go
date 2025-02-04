@@ -7,6 +7,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+var secretKey = []byte(os.Getenv("JWT_SECRET"))
+
 func GenerateAccessToken(id uint, role string, isVerrified bool) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"iat":      jwt.NewNumericDate(time.Now()),
@@ -15,7 +17,7 @@ func GenerateAccessToken(id uint, role string, isVerrified bool) (string, error)
 		"verified": isVerrified,
 		"exp":      jwt.NewNumericDate(time.Now().Add(time.Second * 30)), // 30 seconds
 	})
-	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
 		return "", err
 	}
@@ -30,7 +32,7 @@ func GenerateRefreshToken(id uint, role string, isVerrified bool) (string, error
 		"verified": isVerrified,
 		"exp":      jwt.NewNumericDate(time.Now().Add(time.Hour * 24)), // 24 hours
 	})
-	tokenString, err := token.SignedString([]byte("tes"))
+	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
 		return "", err
 	}
@@ -42,7 +44,7 @@ func VerifyToken(tokenString string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
 		}
-		return []byte(os.Getenv("JWT_SECRET")), nil
+		return secretKey, nil
 	})
 
 	if err != nil {

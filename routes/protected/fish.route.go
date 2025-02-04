@@ -7,7 +7,9 @@ import (
 )
 
 func FishRoutes(api fiber.Router) {
- apiGroup := api.Group("/fish")
+	apiGroup := api.Group("/fish")
 
- apiGroup.Get("/", protected.GetFishes)
+	apiGroup.Get("/", protected.GetFishes)
+	apiGroup.Get("/:id", protected.GetFishesById)
+	apiGroup.Post("/", protected.CreateFish)
 }

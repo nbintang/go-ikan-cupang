@@ -27,7 +27,7 @@ func JwtBearerMiddleware(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"success": false,
 			"message": "Invalid or expired token",
-			"error":   err.Error(), // Tampilkan error parsing
+			"error":   err.Error(), 
 		})
 	}
 
