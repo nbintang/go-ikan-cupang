@@ -1,7 +1,9 @@
 package protected
 
 import (
-	"ikan-cupang/controllers/protected"
+	protectedController "ikan-cupang/controllers/protected"
+	"ikan-cupang/middlewares"
+	"ikan-cupang/schemas"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,7 +11,7 @@ import (
 func FishRoutes(api fiber.Router) {
 	apiGroup := api.Group("/fish")
 
-	apiGroup.Get("/", protected.GetFishes)
-	apiGroup.Get("/:id", protected.GetFishesById)
-	apiGroup.Post("/", protected.CreateFish)
+	apiGroup.Get("/", protectedController.GetFishes)
+	apiGroup.Get("/:id", protectedController.GetFishesById)
+	apiGroup.Post("/",  middlewares.ValidateSchemaMiddleware(&schemas.CreateFishSchema{}), protectedController.CreateFish)
 }

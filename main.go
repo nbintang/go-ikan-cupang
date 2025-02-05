@@ -8,8 +8,8 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -19,9 +19,9 @@ func main() {
 	app := fiber.New()
 	app.Use(
 		cors.New(cors.Config{
-			AllowOrigins: "*",
-			AllowHeaders: "Origin, Content-Type, Accept",
-			AllowMethods: "GET, POST, PUT, DELETE",
+			AllowCredentials: true,
+			AllowOrigins: "http://localhost:3000",
+			AllowMethods: "GET, POST, PUT, DELETE, PATCH",
 		}),
 	)
 	config.DbInit()

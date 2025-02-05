@@ -2,17 +2,23 @@ package lib
 
 import (
 	"crypto/tls"
+	"os"
+	"strconv"
 
 	"gopkg.in/gomail.v2"
 )
 
 func SendEmail(to string, subject string, body string) error {
+	host := os.Getenv("DEV_EMAIL_HOST")
+	port, _ := strconv.Atoi(os.Getenv("DEV_EMAIL_PORT"))
+	user := os.Getenv("DEV_EMAIL_USER")
+	password := os.Getenv("DEV_EMAIL_PASS")
 
 	d := gomail.NewDialer(
-		"sandbox.smtp.mailtrap.io",
-		2525,
-		"34764a45f991b6",
-		"4cda87c97faab2",
+		host,
+		port,
+		user,
+		password,
 	)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 

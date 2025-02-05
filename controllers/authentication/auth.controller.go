@@ -20,7 +20,11 @@ func Login(c *fiber.Ctx) error {
 	db := config.DB
 	otp, _ := helper.GenerateOTP()
 	body := c.Locals("validatedBody").(*schemas.LoginSchema)
-
+	defer (func() {
+		if r := recover(); r != nil {
+			helper.ErrorHandler(c, fiber.StatusBadRequest, "Invalid input")
+		}
+	})()
 	hashedOTP := helper.HashToken(otp)
 
 	user, err := daos.FindUserByEmail(body.Email, "id", "name", "email", "is_verified")
@@ -97,7 +101,7 @@ func VerifyOTP(c *fiber.Ctx) error {
 		return helper.ErrorHandler(c, fiber.StatusInternalServerError, "Failed to generate access token")
 	}
 
-	c.Cookie(&fiber.Cookie{
+	cookieOptions := fiber.Cookie{
 		Name:     "refresh_token",
 		Value:    refreshToken,
 		HTTPOnly: true,
@@ -108,8 +112,10 @@ func VerifyOTP(c *fiber.Ctx) error {
 			}
 			return "none"
 		}(),
-		MaxAge: 60 * 60 * 24 * 1, // 30 days
-	})
+		MaxAge: 60 * 60 * 24 * 1, // 1 days
+	}
+
+	c.Cookie(&cookieOptions)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success":      true,
@@ -119,6 +125,7 @@ func VerifyOTP(c *fiber.Ctx) error {
 }
 
 func ResendOTP(c *fiber.Ctx) error {
+
 	db := config.DB
 	body := c.Locals("validatedBody").(*schemas.LoginSchema)
 	otp, _ := helper.GenerateOTP()
@@ -164,6 +171,7 @@ func RefreshToken(c *fiber.Ctx) error {
 	if cookies == "" {
 		return helper.ErrorHandler(c, fiber.StatusUnauthorized, "Refresh token not found")
 	}
+
 	decodedPayload, err := lib.VerifyToken(cookies)
 	if err != nil {
 		return helper.ErrorHandler(c, fiber.StatusUnauthorized, "Invalid refresh token")
