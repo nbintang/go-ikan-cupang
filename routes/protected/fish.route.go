@@ -13,5 +13,7 @@ func FishRoutes(api fiber.Router) {
 
 	apiGroup.Get("/", protectedController.GetFishes)
 	apiGroup.Get("/:id", protectedController.GetFishesById)
-	apiGroup.Post("/",  middlewares.ValidateSchemaMiddleware(&schemas.CreateFishSchema{}), protectedController.CreateFish)
+	apiGroup.Post("/", middlewares.ValidateSchemaMiddleware(&schemas.FishSchema{}), protectedController.CreateFish)
+	apiGroup.Patch("/:id", middlewares.ValidateSchemaMiddleware(&schemas.FishSchema{}), protectedController.UpdateFish)
+	apiGroup.Delete("/:id", protectedController.DeleteFish)
 }

@@ -4,7 +4,7 @@ import "time"
 
 type Fish struct {
 	ID          int     `gorm:"primaryKey;autoIncrement"`
-	Name        string  `gorm:"unique;not null"`
+	Name        string  `gorm:"type:varchar(80);not null"`
 	Description *string `gorm:"type:varchar(400)"`
 	Price       float64 `gorm:"not null"`
 	Stock       int     `gorm:"not null"`

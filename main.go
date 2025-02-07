@@ -16,7 +16,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal(err)
 	}
-	app := fiber.New()
+	app := fiber.New();
 	app.Use(
 		cors.New(cors.Config{
 			AllowCredentials: true,
@@ -34,9 +34,9 @@ func main() {
 	})
 
 	routes.ApiRoutes(app)
-
 	fmt.Println("Server running at http://localhost:3001")
-	if err := app.Listen(":3001"); err != nil {
+	port := 3001
+	if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
 		log.Fatal(err)
 	}
 }

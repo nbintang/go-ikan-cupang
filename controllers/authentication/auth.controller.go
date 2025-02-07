@@ -115,7 +115,9 @@ func VerifyOTP(c *fiber.Ctx) error {
 		MaxAge: 60 * 60 * 24 * 1, // 1 days
 	}
 
-	c.Cookie(&cookieOptions)
+	if refreshToken != "" && accessToken != "" {
+		c.Cookie(&cookieOptions)
+	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success":      true,
