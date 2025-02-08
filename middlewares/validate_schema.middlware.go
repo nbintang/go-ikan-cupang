@@ -17,10 +17,6 @@ type IError struct {
 
 func ValidateSchemaMiddleware(schema interface{}) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-
-
-
-
 		newSchema := schema
 		if err := c.BodyParser(newSchema); err != nil {
 			return helper.ErrorHandler(c, fiber.StatusBadRequest, "Invalid request body")

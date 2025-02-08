@@ -20,5 +20,4 @@ func DbInit() {
 		log.Fatal("db connection error", err)
 	}
 	fmt.Println("db connected")
-
 }

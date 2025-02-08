@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"ikan-cupang/config"
-	"ikan-cupang/config/migrations"
 	"ikan-cupang/routes"
 	"log"
 
@@ -25,14 +24,11 @@ func main() {
 		}),
 	)
 	config.DbInit()
-	migrations.DbMigration()
-
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON(fiber.Map{
 			"message": "hello world",
 		})
 	})
-
 	routes.ApiRoutes(app)
 	fmt.Println("Server running at http://localhost:3001")
 	port := 3001
